@@ -1,0 +1,42 @@
+---
+# tasks file for 2do_parcial
+
+- debug:
+    msg: "Tareas del 2do Parcial"
+- name: Crear carpeta base /tmp/2do_parcial
+  file:
+    path: /tmp/2do_parcial
+    state: directory
+    mode: '0755'
+
+- name: Crear subcarpeta alumno
+  file: 
+    path: /tmp/2do_parcial/alumno
+    state: directory
+    mode: '0755'
+
+- name: Crear subcarpeta equipo
+  file:
+    path: /tmp/2do_parcial/equipo
+    state: directory
+    mode: '0755'
+
+- name: Generar datos_alumno.txt desde la plantilla
+  template:
+    src: datos_alumno.txt.j2
+    dest: /tmp/2do_parcial/alumno/datos_alumno.txt
+    mode: '0644'
+
+- name: Generar datos_equipo.txt desde la plantilla
+  template: 
+    src: datos_equipo.txt.j2
+    dest: /tmp/2do_parcial/equipo/datos_equipo.txt
+    mode: '0644'
+
+- name: Dar permisos de sudoers y permitir ejecutar sin contraseña al usuario '2PSupervisores'
+  copy:
+    dest: /etc/sudoers.d/2PSupervisores
+    content: "2PSupervisores ALL=(ALL) NOPASSWD:ALL\n"
+    mode: '0440'
+    owner: root
+    group: root
